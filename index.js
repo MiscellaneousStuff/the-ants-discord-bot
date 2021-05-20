@@ -2,7 +2,6 @@ const execSync = require('child_process').execSync;
 
 const { token, CURRENT_CHANNEL, userId } = require('./config.js');
 
-//const token = "YOUR_TOKEN_GOES_HERE";
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
@@ -34,14 +33,10 @@ class Notifications {
         this.curNotifs = curNotifs;
     }
     loop() {
-        console.log('ELLO?')
         const allNotifs = this.check();
         this.add(allNotifs);
-        console.log('OOH?', this.oldNotifs.length, this.curNotifs.length);
         const cur = this.getCur();
-        console.log('DER?', cur.length);
         cur.forEach(notif => {
-            console.log('SENDING:', notif, CURRENT_CHANNEL);
             sendMsg(notif.text, CURRENT_CHANNEL);
         });
     }
@@ -94,7 +89,7 @@ class Notifications {
 let notifs = new Notifications(timeout=2);
 
 const sendMsg = (msg, channelId) => {
-    let fmtMsg = `<@220306503872020480> ${msg}`;
+    let fmtMsg = `<@${userId}> ${msg}`;
     //var offTopic = bot.channels.cache.get('448400100591403024'); //.get('448392061415325697');
     //client.channels.fetch(channelId)
     //    .then(channel => channel.send(`<@miscguy#4900> ${msg}`));
@@ -103,7 +98,6 @@ const sendMsg = (msg, channelId) => {
     //if (channel === undefined) {
         channel = client.channels.fetch(channelId)
             .then(channel => {
-                console.log('FUCKING DO SOMETHING?!?!??!??!:', channel);
                 channel.send(fmtMsg)
             });
     //}
